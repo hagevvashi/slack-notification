@@ -1,0 +1,58 @@
+version: 2.1
+executors:
+  default:
+    working_directory: ~/workspace
+    docker:
+      - image: circleci/node:12.13.0
+
+commands:
+  restore_npm:
+    steps:
+      # Download and cache dependencies
+      - restore_cache:
+          name: Restore npm dependencies
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+  save_npm:
+    steps:
+      - save_cache:
+          name: Cache npm dependencies
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+jobs:
+  setup:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_npm
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - save_npm
+
+  build_and_deploy:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_npm
+      - run:
+          name: Run build and deploy
+          command: yarn deploy
+
+workflows:
+  version: 2
+  setup_and_ci:
+    jobs:
+      - setup
+      - build_and_deploy:
+          filters:
+            branches:
+              only: master
+          requires:
+            - setup
