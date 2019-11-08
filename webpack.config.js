@@ -1,6 +1,7 @@
 const path = require("path");
 const GasPlugin = require("gas-webpack-plugin");
 const Es3ifyPlugin = require("es3ify-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
   mode: "development",
@@ -24,5 +25,13 @@ module.exports = {
       }
     ]
   },
-  plugins: [new GasPlugin(), new Es3ifyPlugin()]
+  plugins: [
+    new GasPlugin(),
+    new Es3ifyPlugin(),
+    new webpack.EnvironmentPlugin([
+      "WEBHOOK_URL",
+      "SPREAD_SHEET_ID",
+      "SHEET_NAME"
+    ])
+  ]
 };
