@@ -35,22 +35,45 @@ jobs:
           command: yarn install
       - save_npm
 
-  build_and_deploy:
+  build_and_deploy_presenter:
     executor:
       name: default
     steps:
       - checkout
       - restore_npm
       - run:
+          name: build presenter
+          command: yarn build:presenter
+      - run:
           name: Deploy to GAS.
-          command: ./scripts/deploy-ci.sh
+          command: yarn deploy:presenter
+
+
+  build_and_deploy_audience:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_npm
+      - run:
+          name: build audience
+          command: yarn build:audience
+      - run:
+          name: Deploy to GAS.
+          command: yarn deploy:audience
 
 workflows:
   version: 2
   setup_and_ci:
     jobs:
       - setup
-      - build_and_deploy:
+      - build_and_deploy_presenter:
+          filters:
+            branches:
+              only: master
+          requires:
+            - setup
+      - build_and_deploy_audience:
           filters:
             branches:
               only: master

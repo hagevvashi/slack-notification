@@ -6,9 +6,10 @@
   "author": "azawakh <azawakhh@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "webpack",
-    "deploy": "yarn build && clasp push",
-    "watch": "watch 'yarn deploy' ./src"
+    "build:audience": "WEBHOOK_URL=$WEBHOOK_URL_AUDIENCE SHEET_NAME=$SHEET_NAME_AUDIENCE SPREAD_SHEET_ID=$SPREAD_SHEET_ID_AUDIENCE webpack",
+    "build:presenter": "WEBHOOK_URL=$WEBHOOK_URL_PRESENTER SHEET_NAME=$SHEET_NAME_PRESENTER SPREAD_SHEET_ID=$SPREAD_SHEET_ID_PRESENTER webpack",
+    "deploy:audience": "echo $CLASPRC_JSON_AUDIENCE >| ~/.clasprc.json && echo $CLASPCONF_JSON_AUDIENCE >| ./.clasp.json && clasp push -f",
+    "deploy:presenter": "echo $CLASPRC_JSON_PRESENTER >| ~/.clasprc.json && echo $CLASPCONF_JSON_PRESENTER >| ./.clasp.json && clasp push -f"
   },
   "dependencies": {
     "@babel/core": "^7.6.4",
