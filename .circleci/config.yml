@@ -42,8 +42,8 @@ jobs:
       - checkout
       - restore_npm
       - run:
-          name: Run build and deploy
-          command: yarn deploy
+          name: Deploy to GAS.
+          command: ./scripts/deploy-ci.sh
 
 workflows:
   version: 2
