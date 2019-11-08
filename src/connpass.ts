@@ -1,16 +1,18 @@
 import moment from "moment";
 
-const { WEBHOOK_URL, SPREAD_SHEET_ID, SHEET_NAME } = process.env;
+const webhookUrl = process.env.WEBHOOK_URL;
+const spreadSheetId = process.env.SPREAD_SHEET_ID;
+const sheetName = process.env.SHEET_NAME;
 
 const CONSTANTS = (() => {
-  if (!WEBHOOK_URL || !SPREAD_SHEET_ID || !SHEET_NAME) {
+  if (!webhookUrl || !spreadSheetId || !sheetName) {
     throw new Error("no env");
   }
 
   return {
-    webhookUrl: WEBHOOK_URL,
-    spreadSheetId: SPREAD_SHEET_ID,
-    sheetName: SHEET_NAME,
+    webhookUrl,
+    spreadSheetId,
+    sheetName,
     lastcheckedTimestampIndex: 0
   };
 })();
