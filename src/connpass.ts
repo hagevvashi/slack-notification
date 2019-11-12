@@ -1,4 +1,6 @@
-import moment from "moment";
+import moment from "moment-timezone";
+
+moment.tz.setDefault("Asia/Tokyo");
 
 const webhookUrl = process.env.WEBHOOK_URL;
 const spreadSheetId = process.env.SPREAD_SHEET_ID;
