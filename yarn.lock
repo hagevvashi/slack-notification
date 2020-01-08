@@ -716,10 +716,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@types/google-apps-script@^0.0.62":
-  version "0.0.62"
-  resolved "https://registry.yarnpkg.com/@types/google-apps-script/-/google-apps-script-0.0.62.tgz#9f631be0c3edca807698f9430cf0c9b603fad6ad"
-  integrity sha512-KFgKLEBLKOgstMjDIEADFFBKkwywcRShtWpNMHADbWmYRLgRYvtVpNCkwcGi/QRua0iYUByLy3UBiazd57o8Dg==
+"@types/google-apps-script@^1.0.0":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@types/google-apps-script/-/google-apps-script-1.0.8.tgz#3b4f740410fda94d9dea12bab102aa7103d3bbb8"
+  integrity sha512-Ih8o3Gyg1+L2pe2Ck89cd+Lmi/CXUbTzSRWJEFKGWFwohcyUva4eHtW75SX2XCM9PqR9x41BtuEdIQJaVSTnLg==
 
 "@types/minimatch@^3.0.3":
   version "3.0.3"
