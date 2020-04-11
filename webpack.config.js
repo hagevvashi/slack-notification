@@ -4,7 +4,7 @@ const Es3ifyPlugin = require("es3ify-webpack-plugin");
 const webpack = require("webpack");
 
 module.exports = {
-  mode: "production",
+  mode: "development",
   // notice: never change devtool option otherwise esprima cannot parse source
   devtool: "none",
   context: __dirname,
