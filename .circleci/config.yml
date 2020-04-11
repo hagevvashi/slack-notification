@@ -73,8 +73,12 @@ workflows:
   setup_and_ci:
     jobs:
       - setup
-      - lint
-      - type_check
+      - lint:
+          requires:
+            - setup
+      - type_check:
+          requires:
+            - setup
       - build_and_deploy:
           filters:
             branches:
