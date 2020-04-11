@@ -35,6 +35,26 @@ jobs:
           command: yarn install --frozen-lockfile
       - save_node_modules
 
+  lint:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_node_modules
+      - run:
+          name: lint
+          command: yarn lint
+
+  type_check:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_node_modules
+      - run:
+          name: type-check
+          command: yarn type-check
+
   build_and_deploy:
     executor:
       name: default
@@ -53,9 +73,13 @@ workflows:
   setup_and_ci:
     jobs:
       - setup
+      - lint
+      - type_check
       - build_and_deploy:
           filters:
             branches:
               only: master
           requires:
             - setup
+            - lint
+            - type_check

@@ -6,7 +6,12 @@ const webhookUrl = process.env.WEBHOOK_URL;
 const spreadSheetId = process.env.SPREAD_SHEET_ID;
 const sheetName = process.env.SHEET_NAME;
 
-const CONSTANTS = (() => {
+const CONSTANTS = ((): {
+  webhookUrl: string;
+  spreadSheetId: string;
+  sheetName: string;
+  lastcheckedTimestampIndex: number;
+} => {
   if (!webhookUrl || !spreadSheetId || !sheetName) {
     throw new Error("no env");
   }
@@ -15,17 +20,18 @@ const CONSTANTS = (() => {
     webhookUrl,
     spreadSheetId,
     sheetName,
-    lastcheckedTimestampIndex: 0
+    lastcheckedTimestampIndex: 0,
   };
 })();
 
-/***************************************
+/** *************************************
  * Slackに投稿させる内容を作る
- ***************************************/
+ ************************************** */
 const sendHttpPostForSlack = (message: string): void => {
   const jsonData = {
     text: message,
-    unfurl_links: true
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    unfurl_links: true,
   };
   const payload = JSON.stringify(jsonData);
   const options: {
@@ -35,28 +41,30 @@ const sendHttpPostForSlack = (message: string): void => {
   } = {
     method: "post",
     contentType: "application/json",
-    payload
+    payload,
   };
 
+  // eslint-disable-next-line no-undef
   UrlFetchApp.fetch(CONSTANTS.webhookUrl, options);
 };
 
-/***************************************
+/** *************************************
  * Slackに投稿
- ***************************************/
+ ************************************** */
 const postToSlack = (message: string): void => {
   sendHttpPostForSlack(message); // Post
 };
 
-const getSheet = () =>
+const getSheet = (): GoogleAppsScript.Spreadsheet.Sheet | null =>
+  // eslint-disable-next-line no-undef
   SpreadsheetApp.openById(CONSTANTS.spreadSheetId).getSheetByName(
     CONSTANTS.sheetName
   );
 
-const getLastCheckedTimestamp = () => {
+const getLastCheckedTimestamp = (): string | undefined => {
   const sheet = getSheet();
   if (!sheet) {
-    return;
+    return undefined;
   }
 
   const data = sheet.getDataRange().getValues();
@@ -65,15 +73,13 @@ const getLastCheckedTimestamp = () => {
 };
 
 const searchMail = (): void => {
-  const threads: {
-    getLastMessageDate: () => Date;
-    getMessages: () => { getSubject: () => string; getBody: () => string }[];
-  }[] = GmailApp.search("label:connpass", 0, 20);
+  // eslint-disable-next-line no-undef
+  const threads = GmailApp.search("label:connpass", 0, 20);
   const lastCheckedTimestamp = moment(getLastCheckedTimestamp());
 
   threads.forEach((thread): void => {
     const recievedDate = thread.getLastMessageDate();
-    const targetTimestamp = moment(recievedDate);
+    const targetTimestamp = moment(recievedDate as Date);
 
     if (!targetTimestamp.isAfter(lastCheckedTimestamp)) {
       return;
@@ -96,7 +102,7 @@ const searchMail = (): void => {
       url[0].lastIndexOf("/") + 1
     );
 
-    const msg = "*" + subject + "* \n" + newUrl;
+    const msg = `*${subject}* \n${newUrl}`;
     postToSlack(msg);
   });
 };
@@ -109,7 +115,7 @@ const setLastCheckedTimestamp = (timestamp: moment.Moment): void => {
   sheet.getRange(1, 1).setValue(timestamp.format("YYYY/MM/DD HH:mm"));
 };
 
-const doCheck = () => {
+const doCheck = (): void => {
   searchMail();
   setLastCheckedTimestamp(moment());
 };
