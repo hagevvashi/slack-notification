@@ -6,22 +6,22 @@ executors:
       - image: circleci/node:12.16.1
 
 commands:
-  restore_npm:
+  restore_node_modules:
     steps:
       # Download and cache dependencies
       - restore_cache:
           name: Restore npm dependencies
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-  save_npm:
+  save_node_modules:
     steps:
       - save_cache:
           name: Cache npm dependencies
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
 
 jobs:
   setup:
@@ -35,45 +35,25 @@ jobs:
           command: yarn install
       - save_npm
 
-  build_and_deploy_presenter:
+  build_and_deploy:
     executor:
       name: default
     steps:
       - checkout
       - restore_npm
       - run:
-          name: build presenter
-          command: yarn build:presenter
+          name: build
+          command: yarn build
       - run:
           name: Deploy to GAS.
-          command: yarn deploy:presenter
-
-
-  build_and_deploy_audience:
-    executor:
-      name: default
-    steps:
-      - checkout
-      - restore_npm
-      - run:
-          name: build audience
-          command: yarn build:audience
-      - run:
-          name: Deploy to GAS.
-          command: yarn deploy:audience
+          command: yarn deploy
 
 workflows:
   version: 2
   setup_and_ci:
     jobs:
       - setup
-      - build_and_deploy_presenter:
-          filters:
-            branches:
-              only: master
-          requires:
-            - setup
-      - build_and_deploy_audience:
+      - build_and_deploy:
           filters:
             branches:
               only: master
