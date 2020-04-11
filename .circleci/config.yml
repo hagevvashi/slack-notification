@@ -10,7 +10,7 @@ commands:
     steps:
       # Download and cache dependencies
       - restore_cache:
-          name: Restore npm dependencies
+          name: Restore node_modules
           keys:
             - v1-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
@@ -18,7 +18,7 @@ commands:
   save_node_modules:
     steps:
       - save_cache:
-          name: Cache npm dependencies
+          name: Cache node_modules
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "yarn.lock" }}
@@ -40,7 +40,7 @@ jobs:
       name: default
     steps:
       - checkout
-      - restore_npm
+      - restore_node_modules
       - run:
           name: build
           command: yarn build
