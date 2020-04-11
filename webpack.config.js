@@ -5,7 +5,8 @@ const webpack = require("webpack");
 
 module.exports = {
   mode: "production",
-  devtool: "hidden-source-map",
+  // notice: never change devtool option otherwise esprima cannot parse source
+  devtool: "none",
   context: __dirname,
   entry: {
     main: path.resolve(__dirname, "src", "index.ts"),
