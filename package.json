@@ -2,33 +2,32 @@
   "name": "slack-notification",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/azawakh/slack-notification.git",
-  "author": "azawakh <azawakhh@gmail.com>",
+  "repository": "https://github.com/hagevvashi/slack-notification.git",
+  "author": "hagevvashi <hagevvashi@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build:audience": "WEBHOOK_URL=$WEBHOOK_URL_AUDIENCE SHEET_NAME=$SHEET_NAME_AUDIENCE SPREAD_SHEET_ID=$SPREAD_SHEET_ID_AUDIENCE webpack",
-    "build:presenter": "WEBHOOK_URL=$WEBHOOK_URL_PRESENTER SHEET_NAME=$SHEET_NAME_PRESENTER SPREAD_SHEET_ID=$SPREAD_SHEET_ID_PRESENTER webpack",
-    "deploy:audience": "echo $CLASPRC_JSON_AUDIENCE >| ~/.clasprc.json && echo $CLASPCONF_JSON_AUDIENCE >| ./.clasp.json && clasp push -f",
-    "deploy:presenter": "echo $CLASPRC_JSON_PRESENTER >| ~/.clasprc.json && echo $CLASPCONF_JSON_PRESENTER >| ./.clasp.json && clasp push -f"
+    "build": "webpack",
+    "deploy:presenter": "echo $CLASPRC_JSON >| ~/.clasprc.json && echo $CLASPCONF_JSON >| ./.clasp.json && clasp push -f"
   },
   "dependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
-    "@babel/preset-typescript": "^7.6.0",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.28"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-typescript": "^7.9.0",
     "@google/clasp": "^2.3.0",
-    "@types/google-apps-script": "^1.0.0",
-    "@types/moment-timezone": "^0.5.12",
-    "@types/node": "^12.12.6",
-    "babel-loader": "^8.0.6",
-    "core-js": "3",
+    "@types/google-apps-script": "^1.0.12",
+    "@types/moment-timezone": "^0.5.13",
+    "@types/node": "^13.11.1",
+    "babel-loader": "^8.1.0",
+    "core-js": "^3.6.5",
     "es3ify-webpack-plugin": "^0.1.0",
     "gas-webpack-plugin": "^1.0.2",
-    "moment": "^2.24.0",
-    "moment-timezone": "^0.5.27",
-    "regenerator-runtime": "^0.13.3",
-    "typescript": "^3.6.4",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
-  },
-  "devDependencies": {}
+    "regenerator-runtime": "^0.13.5",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
 }
