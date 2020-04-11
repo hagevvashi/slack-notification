@@ -9,7 +9,7 @@
     "type-check": "tsc",
     "lint": "eslint --ext .ts --ignore-path .gitignore .",
     "build": "webpack",
-    "deploy:presenter": "echo $CLASPRC_JSON >| ~/.clasprc.json && echo $CLASPCONF_JSON >| ./.clasp.json && clasp push -f"
+    "deploy": "echo $CLASPRC_JSON >| ~/.clasprc.json && echo $CLASPCONF_JSON >| ./.clasp.json && clasp push -f"
   },
   "dependencies": {
     "moment": "^2.24.0",
