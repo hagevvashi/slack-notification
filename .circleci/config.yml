@@ -6,22 +6,22 @@ executors:
       - image: circleci/node:12.16.1
 
 commands:
-  restore_npm:
+  restore_node_modules:
     steps:
       # Download and cache dependencies
       - restore_cache:
-          name: Restore npm dependencies
+          name: Restore node_modules
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-  save_npm:
+  save_node_modules:
     steps:
       - save_cache:
-          name: Cache npm dependencies
+          name: Cache node_modules
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
 
 jobs:
   setup:
@@ -29,53 +29,61 @@ jobs:
       name: default
     steps:
       - checkout
-      - restore_npm
+      - restore_node_modules
       - run:
           name: Install dependencies
-          command: yarn install
-      - save_npm
+          command: yarn install --frozen-lockfile
+      - save_node_modules
 
-  build_and_deploy_presenter:
+  lint:
     executor:
       name: default
     steps:
       - checkout
-      - restore_npm
+      - restore_node_modules
       - run:
-          name: build presenter
-          command: yarn build:presenter
-      - run:
-          name: Deploy to GAS.
-          command: yarn deploy:presenter
+          name: lint
+          command: yarn lint
 
-
-  build_and_deploy_audience:
+  type_check:
     executor:
       name: default
     steps:
       - checkout
-      - restore_npm
+      - restore_node_modules
       - run:
-          name: build audience
-          command: yarn build:audience
+          name: type-check
+          command: yarn type-check
+
+  build_and_deploy:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_node_modules
+      - run:
+          name: build
+          command: yarn build
       - run:
           name: Deploy to GAS.
-          command: yarn deploy:audience
+          command: yarn deploy
 
 workflows:
   version: 2
   setup_and_ci:
     jobs:
       - setup
-      - build_and_deploy_presenter:
+      - lint:
+          requires:
+            - setup
+      - type_check:
+          requires:
+            - setup
+      - build_and_deploy:
           filters:
             branches:
               only: master
           requires:
             - setup
-      - build_and_deploy_audience:
-          filters:
-            branches:
-              only: master
-          requires:
-            - setup
+            - lint
+            - type_check
