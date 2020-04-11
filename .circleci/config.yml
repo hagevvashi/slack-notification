@@ -29,11 +29,11 @@ jobs:
       name: default
     steps:
       - checkout
-      - restore_npm
+      - restore_node_modules
       - run:
           name: Install dependencies
-          command: yarn install
-      - save_npm
+          command: yarn install --frozen-lockfile
+      - save_node_modules
 
   build_and_deploy:
     executor:
