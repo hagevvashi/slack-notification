@@ -4,26 +4,26 @@ const Es3ifyPlugin = require("es3ify-webpack-plugin");
 const webpack = require("webpack");
 
 module.exports = {
-  mode: "development",
-  devtool: "inline-source-map",
+  mode: "production",
+  devtool: "hidden-source-map",
   context: __dirname,
   entry: {
-    main: path.resolve(__dirname, "src", "index.ts")
+    main: path.resolve(__dirname, "src", "index.ts"),
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "index.js"
+    filename: "index.js",
   },
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: [".ts", ".js"],
   },
   module: {
     rules: [
       {
         test: /\.[tj]s$/,
-        loader: "babel-loader"
-      }
-    ]
+        loader: "babel-loader",
+      },
+    ],
   },
   plugins: [
     new GasPlugin(),
@@ -31,7 +31,7 @@ module.exports = {
     new webpack.EnvironmentPlugin([
       "WEBHOOK_URL",
       "SPREAD_SHEET_ID",
-      "SHEET_NAME"
-    ])
-  ]
+      "SHEET_NAME",
+    ]),
+  ],
 };
