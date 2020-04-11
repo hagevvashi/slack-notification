@@ -10,7 +10,6 @@
     ],
     "allowJs": true,
     "declaration": false,
-    "outDir": "./dist",
     "rootDir": "./src",
     "downlevelIteration": true,
 
@@ -25,7 +24,9 @@
     "esModuleInterop": true,
 
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+
+    "noEmit": true
   },
   "include": ["./src/**/*"]
 }
