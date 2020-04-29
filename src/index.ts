@@ -1,3 +1,5 @@
 import { timer } from "./connpass";
 
-global.timer = timer;
+global.timer = (): void => {
+  timer();
+};

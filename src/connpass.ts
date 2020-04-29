@@ -27,7 +27,7 @@ const CONSTANTS = ((): {
 /** *************************************
  * Slackに投稿させる内容を作る
  ************************************** */
-const sendHttpPostForSlack = (message: string): void => {
+function sendHttpPostForSlack(message: string): void {
   const jsonData = {
     text: message,
     // eslint-disable-next-line @typescript-eslint/camelcase
@@ -46,22 +46,23 @@ const sendHttpPostForSlack = (message: string): void => {
 
   // eslint-disable-next-line no-undef
   UrlFetchApp.fetch(CONSTANTS.webhookUrl, options);
-};
+}
 
 /** *************************************
  * Slackに投稿
  ************************************** */
-const postToSlack = (message: string): void => {
+function postToSlack(message: string): void {
   sendHttpPostForSlack(message); // Post
-};
+}
 
-const getSheet = (): GoogleAppsScript.Spreadsheet.Sheet | null =>
+function getSheet(): GoogleAppsScript.Spreadsheet.Sheet | null {
   // eslint-disable-next-line no-undef
-  SpreadsheetApp.openById(CONSTANTS.spreadSheetId).getSheetByName(
+  return SpreadsheetApp.openById(CONSTANTS.spreadSheetId).getSheetByName(
     CONSTANTS.sheetName
   );
+}
 
-const getLastCheckedTimestamp = (): string | undefined => {
+function getLastCheckedTimestamp(): string | undefined {
   const sheet = getSheet();
   if (!sheet) {
     return undefined;
@@ -70,9 +71,9 @@ const getLastCheckedTimestamp = (): string | undefined => {
   const data = sheet.getDataRange().getValues();
 
   return data[CONSTANTS.lastcheckedTimestampIndex][0];
-};
+}
 
-const searchMail = (): void => {
+function searchMail(): void {
   // eslint-disable-next-line no-undef
   const threads = GmailApp.search("label:connpass", 0, 20);
   const lastCheckedTimestamp = moment(getLastCheckedTimestamp());
@@ -105,21 +106,21 @@ const searchMail = (): void => {
     const msg = `*${subject}* \n${newUrl}`;
     postToSlack(msg);
   });
-};
+}
 
-const setLastCheckedTimestamp = (timestamp: moment.Moment): void => {
+function setLastCheckedTimestamp(timestamp: moment.Moment): void {
   const sheet = getSheet();
   if (!sheet) {
     return;
   }
   sheet.getRange(1, 1).setValue(timestamp.format("YYYY/MM/DD HH:mm"));
-};
+}
 
-const doCheck = (): void => {
+function doCheck(): void {
   searchMail();
   setLastCheckedTimestamp(moment());
-};
+}
 
-export const timer = (): void => {
+export function timer(): void {
   doCheck();
-};
+}
