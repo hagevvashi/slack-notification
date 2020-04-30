@@ -3,7 +3,7 @@ executors:
   default:
     working_directory: ~/workspace
     docker:
-      - image: circleci/node:12.16.2
+      - image: circleci/node:12.16.3
 
 commands:
   restore_node_modules:
