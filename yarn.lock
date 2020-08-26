@@ -2853,12 +2853,13 @@ gas-entry-generator@1.1.2:
     esprima "4.0.1"
     estraverse "5.1.0"
 
-gas-webpack-plugin@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/gas-webpack-plugin/-/gas-webpack-plugin-1.0.4.tgz#d4f2dc0ce8e3799bebd822150302040fb44c9761"
-  integrity sha512-+qFp+Xo0eOAXHynH9iQjFiHp39DYxrIIwNttXUTPo1f2uFJllFfY53+Fiv8Ef3HignD4n7fkiu0zppMGzvqiGw==
+gas-webpack-plugin@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/gas-webpack-plugin/-/gas-webpack-plugin-1.0.5.tgz#f352c6a8595dde0fd3ba3e03f96dbb077ed8dd2d"
+  integrity sha512-4ut0Tj3P+qe60w61lmqDhLQlvdt1m//Qk+SEKH3cPhs3cS5E3SIwv9KQpt/ZJEZLdC6zkh+MJj9j5s/hu0c8dA==
   dependencies:
     gas-entry-generator "1.1.2"
+    webpack-sources "^1.4.3"
 
 gaxios@^2.0.1, gaxios@^2.1.0:
   version "2.3.4"
@@ -5604,7 +5605,7 @@ webpack-cli@3.3.12:
     v8-compile-cache "^2.1.1"
     yargs "^13.3.2"
 
-webpack-sources@^1.4.0, webpack-sources@^1.4.1:
+webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-sources@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.4.3.tgz#eedd8ec0b928fbf1cbfe994e22d2d890f330a933"
   integrity sha512-lgTS3Xhv1lCOKo7SA5TjKXMjpSM4sBjNV5+q2bqesbSPs5FjGmU6jjtBSkX9b4qW87vDIsCIlUPOEhbZrMdjeQ==
