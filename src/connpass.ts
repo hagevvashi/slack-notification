@@ -30,7 +30,6 @@ const CONSTANTS = ((): {
 function sendHttpPostForSlack(message: string): void {
   const jsonData = {
     text: message,
-    // eslint-disable-next-line @typescript-eslint/camelcase
     unfurl_links: true,
   };
   const payload = JSON.stringify(jsonData);
